@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
     <title>Math Tables App</title>
 </head>
 <body>
+    <img src="./images/image.jpg" alt = 'sample image' width="25%" style="padding-left: 60%;">
     <div id="mainPage">
         <button id="createTestBtn">Create Test</button>
         <div id="testsContainer"></div>
-        <input type="text" id="answersInput" placeholder="Enter answers separated by commas">
         <button id="submitBtn">Submit</button>
         <div id="results"></div>
-        <div id="marks">Marks: <span id="marksValue">0</span></div>
+        <div id="marks">Marks: <span id="marksValue"></span></div>
+        <button id="showResultsButton">Show Results</button>
     </div>
 
     <div id="resultsPage" style="display: none;">
         <h2>Results</h2>
+        <span id="numberOfMarks" style="color: green;font-size: xx-large;"></span>
         <div id="resultsContainer"></div>
+        <span id="numberOfMarks"></span>
         <button id="backBtn">Back</button>
         <button id="newTestBtn">New Test</button>
     </div>

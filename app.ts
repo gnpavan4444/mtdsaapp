@@ -1,14 +1,18 @@
 document.getElementById('createTestBtn')?.addEventListener('click', createTests);
 document.getElementById('submitBtn')?.addEventListener('click', submitAnswers);
+document.getElementById('showResultsButton')?.addEventListener('click', showResultsPage);
 
 let correctAnswers: number[] = [];
+let questions: string[] = [];
+let actualAnswers:string[] = [];
+let correctCount = 0; 
 
 function createTests() {
     const testsContainer = document.getElementById('testsContainer');
     testsContainer.innerHTML = '';
     correctAnswers = []; // Reset correctAnswers array
 
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 1; i++) {
         const test = document.createElement('div');
         test.innerHTML = `<h3>Test ${i}</h3>`;
         test.innerHTML += `<p>${generateQuestion('+')}</p>`;
@@ -47,7 +51,6 @@ function submitAnswers() {
 
     correctAnswers = []; // Reset correctAnswers array
 
-    let correctCount = 0;
     let unansweredFound = false;
     let firstUnansweredField: HTMLInputElement | null = null;
 
@@ -55,11 +58,13 @@ function submitAnswers() {
         const operator = answerInput.dataset.operator;
         const num1 = parseInt(answerInput.dataset.num1 || '0', 10);
         const num2 = parseInt(answerInput.dataset.num2 || '0', 10);
+        questions.push(`${num1} ${operator} ${num2}`);
         const expectedAnswer = eval(`${num1} ${operator} ${num2}`);
 
         correctAnswers.push(expectedAnswer); // Store correct answers for displaying later
 
         const answerValue = answerInput.value.trim();
+        actualAnswers.push(answerValue);
 
         if (answerValue === '') {
             unansweredFound = true;
@@ -72,9 +77,15 @@ function submitAnswers() {
             answerInput.style.borderColor = ''; // Reset border color
         }
 
-        if (answerValue === '' || parseInt(answerValue, 10) !== expectedAnswer) {
+
+        if (parseInt(answerValue, 10) === expectedAnswer) {
+            answerInput.style.border = '4px solid green';
             correctCount++;
+        } else {
+            answerInput.style.border = '4px solid red';
         }
+        answerInput.disabled = true;
+        answerInput.style.backgroundColor = 'silver';
     });
 
     if (unansweredFound) {
@@ -88,10 +99,17 @@ function submitAnswers() {
         if (marksValue) {
             marksValue.textContent = correctCount.toString();
         }
+        //alert(`Total marks are ${correctCount}`);
 
         // Display results page
-        showResultsPage();
+        showResultsButton();
     }
+}
+
+function showResultsButton() {
+    document.getElementById('showResultsButton')!.style.display = 'block';
+    document.getElementById('createTestBtn')!.style.display = 'none';
+    document.getElementById('submitBtn')!.style.display = 'none';
 }
 
 function showResultsPage() {
@@ -100,9 +118,11 @@ function showResultsPage() {
 
     const resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = '<h3>Results:</h3>';
+    const sampleElement = document.getElementById('numberOfMarks');
+    sampleElement.innerHTML = `Number of marks are ${correctCount}`;
 
     correctAnswers.forEach((correctAnswer, index) => {
-        resultsContainer.innerHTML += `<p>Question ${index + 1}: Correct Answer - ${correctAnswer}</p>`;
+        resultsContainer.innerHTML += `<p>Question ${index + 1}: ${questions[index]} => Your Answer - ${actualAnswers[index]} => Correct Answer - ${correctAnswer}</p>`;
     });
 }
 
@@ -114,6 +134,10 @@ function backToMainPage() {
 function newTest() {
     createTests();
     backToMainPage();
+    const marksValue = document.getElementById('marksValue');
+    marksValue!.textContent = '';
+    document.getElementById('showResultsButton')!.style.display = 'none';
+    document.getElementById('submitBtn')!.style.display = 'block';
 }
 
 // Event listeners for the buttons on the results page
