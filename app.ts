@@ -50,6 +50,7 @@ function submitAnswers() {
     resultsContainer.innerHTML = '';
 
     correctAnswers = []; // Reset correctAnswers array
+    actualAnswers = [];
 
     let unansweredFound = false;
     let firstUnansweredField: HTMLInputElement | null = null;
@@ -84,8 +85,6 @@ function submitAnswers() {
         } else {
             answerInput.style.border = '4px solid red';
         }
-        answerInput.disabled = true;
-        answerInput.style.backgroundColor = 'silver';
     });
 
     if (unansweredFound) {
@@ -103,6 +102,10 @@ function submitAnswers() {
 
         // Display results page
         showResultsButton();
+        userAnswers.forEach((userInput) => {
+            userInput.disabled = true;
+            userInput.style.backgroundColor = 'silver';
+        })
     }
 }
 
@@ -122,6 +125,7 @@ function showResultsPage() {
     sampleElement.innerHTML = `Number of marks are ${correctCount}`;
 
     correctAnswers.forEach((correctAnswer, index) => {
+        console.log(`Number of Actual answers are ${actualAnswers.length}`)
         resultsContainer.innerHTML += `<p>Question ${index + 1}: ${questions[index]} => Your Answer - ${actualAnswers[index]} => Correct Answer - ${correctAnswer}</p>`;
     });
 }
@@ -138,6 +142,7 @@ function newTest() {
     marksValue!.textContent = '';
     document.getElementById('showResultsButton')!.style.display = 'none';
     document.getElementById('submitBtn')!.style.display = 'block';
+    correctCount = 0;
 }
 
 // Event listeners for the buttons on the results page

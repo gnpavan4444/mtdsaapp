@@ -36,6 +36,10 @@ button:hover {
     margin: 20px;
 }
 
+#showResultsButton {
+    display: none;
+}
+
 input {
     width: 50px;
     padding: 5px;

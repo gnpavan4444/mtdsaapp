@@ -42,6 +42,7 @@ function submitAnswers() {
     var resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = '';
     correctAnswers = []; // Reset correctAnswers array
+    actualAnswers = [];
     var unansweredFound = false;
     var firstUnansweredField = null;
     userAnswers.forEach(function (answerInput) {
@@ -70,8 +71,6 @@ function submitAnswers() {
         else {
             answerInput.style.border = '4px solid red';
         }
-        answerInput.disabled = true;
-        answerInput.style.backgroundColor = 'silver';
     });
     if (unansweredFound) {
         // Display message and scroll to the first unanswered field
@@ -88,6 +87,10 @@ function submitAnswers() {
         //alert(`Total marks are ${correctCount}`);
         // Display results page
         showResultsButton();
+        userAnswers.forEach(function (userInput) {
+            userInput.disabled = true;
+            userInput.style.backgroundColor = 'silver';
+        });
     }
 }
 function showResultsButton() {
@@ -103,6 +106,7 @@ function showResultsPage() {
     var sampleElement = document.getElementById('numberOfMarks');
     sampleElement.innerHTML = "Number of marks are ".concat(correctCount);
     correctAnswers.forEach(function (correctAnswer, index) {
+        console.log("Number of Actual answers are ".concat(actualAnswers.length));
         resultsContainer.innerHTML += "<p>Question ".concat(index + 1, ": ").concat(questions[index], " => Your Answer - ").concat(actualAnswers[index], " => Correct Answer - ").concat(correctAnswer, "</p>");
     });
 }
@@ -117,6 +121,7 @@ function newTest() {
     marksValue.textContent = '';
     document.getElementById('showResultsButton').style.display = 'none';
     document.getElementById('submitBtn').style.display = 'block';
+    correctCount = 0;
 }
 // Event listeners for the buttons on the results page
 (_d = document.getElementById('backBtn')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', backToMainPage);
