@@ -12,7 +12,7 @@ function createTests() {
     testsContainer.innerHTML = '';
     correctAnswers = []; // Reset correctAnswers array
 
-    for (let i = 1; i <= 1; i++) {
+    for (let i = 1; i <= 4; i++) {
         const test = document.createElement('div');
         test.innerHTML = `<h3>Test ${i}</h3>`;
         test.innerHTML += `<p>${generateQuestion('+')}</p>`;

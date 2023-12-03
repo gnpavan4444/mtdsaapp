@@ -1,3 +1,79 @@
-#showResultsButton {
+/* Reset some default styles */
+body, h1, h2, p, button {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f2f2f2;
+}
+
+#mainPage {
+    text-align: center;
+    margin: 20px;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#testsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+}
+
+input {
+    width: 50px;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+}
+
+#resultsPage {
     display: none;
+    text-align: center;
+    margin: 20px;
+}
+
+h2 {
+    color: #3498db;
+}
+
+#resultsContainer {
+    margin-top: 20px;
+}
+
+#numberOfMarks {
+    color: green;
+    font-size: xx-large;
+    margin-bottom: 10px;
+}
+
+/* Style for the disabled input fields */
+.answerInput:disabled {
+    background-color: #dddddd;
+}
+
+/* Style for the correct answers */
+.answerInput[style*="green"] {
+    border: 4px solid green;
+}
+
+/* Style for the incorrect answers */
+.answerInput[style*="red"] {
+    border: 4px solid red;
 }

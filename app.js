@@ -10,7 +10,7 @@ function createTests() {
     var testsContainer = document.getElementById('testsContainer');
     testsContainer.innerHTML = '';
     correctAnswers = []; // Reset correctAnswers array
-    for (var i = 1; i <= 1; i++) {
+    for (var i = 1; i <= 4; i++) {
         var test = document.createElement('div');
         test.innerHTML = "<h3>Test ".concat(i, "</h3>");
         test.innerHTML += "<p>".concat(generateQuestion('+'), "</p>");
@@ -71,7 +71,7 @@ function submitAnswers() {
             answerInput.style.border = '4px solid red';
         }
         answerInput.disabled = true;
-        answerInput.style.backgroundColor = 'yellow';
+        answerInput.style.backgroundColor = 'silver';
     });
     if (unansweredFound) {
         // Display message and scroll to the first unanswered field
