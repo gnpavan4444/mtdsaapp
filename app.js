@@ -103,10 +103,12 @@ function showResultsPage() {
     document.getElementById('resultsPage').style.display = 'block';
     var dynamicImage = document.getElementById("dynamicImage");
     if (correctCount > 10) {
-        dynamicImage.src = "./images/img_happy.gif";
+        dynamicImage.setAttribute("src", "./images/img_happy.gif");
+        //dynamicImage.src = "./images/img_happy.gif";
     }
     else {
-        dynamicImage.src = "./images/img.gif";
+        //dynamicImage.src = "./images/img.gif";
+        dynamicImage.setAttribute("src", "./images/img.gif");
     }
     var resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = '<h3>Results:</h3>';

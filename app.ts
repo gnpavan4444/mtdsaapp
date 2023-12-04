@@ -120,10 +120,11 @@ function showResultsPage() {
     document.getElementById('resultsPage')!.style.display = 'block';
     const dynamicImage:HTMLImageElement = document.getElementById("dynamicImage") as HTMLImageElement;
     if (correctCount > 10) {
-        dynamicImage.src = "./images/img_happy.gif";
+        dynamicImage.setAttribute("src", "./images/img_happy.gif");
+        //dynamicImage.src = "./images/img_happy.gif";
     } else {
-        dynamicImage.src = "./images/img.gif";
-
+        //dynamicImage.src = "./images/img.gif";
+        dynamicImage.setAttribute("src", "./images/img.gif");
     }
 
     const resultsContainer = document.getElementById('resultsContainer');
