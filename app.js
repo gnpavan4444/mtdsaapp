@@ -67,7 +67,7 @@ function getRandomNumber(difficulty) {
         case Difficulty.Medium:
             return Math.floor(Math.random() * 18) + 2;
         case Difficulty.Hard:
-            return Math.floor(Math.random() * 29) + 2;
+            return Math.floor(Math.random() * 20 + 11.5);
         default:
             return 0;
     }
@@ -78,6 +78,8 @@ function submitAnswers() {
     resultsContainer.innerHTML = '';
     correctAnswers = []; // Reset correctAnswers array
     actualAnswers = [];
+    questions = [];
+    correctCount = 0;
     var unansweredFound = false;
     var firstUnansweredField = null;
     userAnswers.forEach(function (answerInput) {
