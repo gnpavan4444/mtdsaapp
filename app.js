@@ -102,7 +102,10 @@ function showResultsPage() {
     document.getElementById('mainPage').style.display = 'none';
     document.getElementById('resultsPage').style.display = 'block';
     var dynamicImage = document.getElementById("dynamicImage");
-    if (correctCount > 10) {
+    if (correctCount === 15) {
+        dynamicImage.setAttribute("src", "./images/image_perfect.gif");
+    }
+    else if (correctCount > 10) {
         dynamicImage.setAttribute("src", "./images/img_happy.gif");
         //dynamicImage.src = "./images/img_happy.gif";
     }
