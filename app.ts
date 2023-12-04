@@ -24,8 +24,8 @@ function createTests() {
 }
 
 function generateQuestion(operator: string): string {
-    let num1 = Math.floor(Math.random() * 10) + 1;
-    let num2 = Math.floor(Math.random() * 10) + 1;
+    let num1 = Math.floor(Math.random() * 8) + 2;
+    let num2 = Math.floor(Math.random() * 8) + 2;
 
     // Ensure subtraction numbers are not negative
     if (operator === '-' && num1 < num2) {
