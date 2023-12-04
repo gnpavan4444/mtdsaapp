@@ -101,12 +101,18 @@ function showResultsButton() {
 function showResultsPage() {
     document.getElementById('mainPage').style.display = 'none';
     document.getElementById('resultsPage').style.display = 'block';
+    var dynamicImage = document.getElementById("dynamicImage");
+    if (correctCount > 10) {
+        dynamicImage.src = "./images/image_happy.gif";
+    }
+    else {
+        dynamicImage.src = "./images/image.gif";
+    }
     var resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = '<h3>Results:</h3>';
     var sampleElement = document.getElementById('numberOfMarks');
     sampleElement.innerHTML = "Number of marks are ".concat(correctCount);
     correctAnswers.forEach(function (correctAnswer, index) {
-        console.log("Number of Actual answers are ".concat(actualAnswers.length));
         resultsContainer.innerHTML += "<p>Question ".concat(index + 1, ": ").concat(questions[index], " => Your Answer - ").concat(actualAnswers[index], " => Correct Answer - ").concat(correctAnswer, "</p>");
     });
 }

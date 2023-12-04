@@ -118,6 +118,13 @@ function showResultsButton() {
 function showResultsPage() {
     document.getElementById('mainPage')!.style.display = 'none';
     document.getElementById('resultsPage')!.style.display = 'block';
+    const dynamicImage:HTMLImageElement = document.getElementById("dynamicImage") as HTMLImageElement;
+    if (correctCount > 10) {
+        dynamicImage.src = "./images/image_happy.gif";
+    } else {
+        dynamicImage.src = "./images/image.gif";
+
+    }
 
     const resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = '<h3>Results:</h3>';
@@ -125,7 +132,6 @@ function showResultsPage() {
     sampleElement.innerHTML = `Number of marks are ${correctCount}`;
 
     correctAnswers.forEach((correctAnswer, index) => {
-        console.log(`Number of Actual answers are ${actualAnswers.length}`)
         resultsContainer.innerHTML += `<p>Question ${index + 1}: ${questions[index]} => Your Answer - ${actualAnswers[index]} => Correct Answer - ${correctAnswer}</p>`;
     });
 }
