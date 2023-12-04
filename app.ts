@@ -1,3 +1,10 @@
+// Enums for difficulty levels
+enum Difficulty {
+    Easy = 'easy',
+    Medium = 'medium',
+    Hard = 'hard',
+  }
+
 document.getElementById('createTestBtn')?.addEventListener('click', createTests);
 document.getElementById('submitBtn')?.addEventListener('click', submitAnswers);
 document.getElementById('showResultsButton')?.addEventListener('click', showResultsPage);
@@ -11,21 +18,40 @@ function createTests() {
     const testsContainer = document.getElementById('testsContainer');
     testsContainer.innerHTML = '';
     correctAnswers = []; // Reset correctAnswers array
+    let difficultyLevel = selectDifficulty();
 
     for (let i = 1; i <= 5; i++) {
         const test = document.createElement('div');
         test.innerHTML = `<h3>Test ${i}</h3>`;
-        test.innerHTML += `<p>${generateQuestion('+')}</p>`;
-        test.innerHTML += `<p>${generateQuestion('-')}</p>`;
-        test.innerHTML += `<p>${generateQuestion('*')}</p>`;
+        test.innerHTML += `<p>${generateQuestion('+', difficultyLevel)}</p>`;
+        test.innerHTML += `<p>${generateQuestion('-', difficultyLevel)}</p>`;
+        test.innerHTML += `<p>${generateQuestion('*', difficultyLevel)}</p>`;
         //test.innerHTML += `<p>${generateQuestion('/')}</p>`;
         testsContainer?.appendChild(test);
     }
 }
 
-function generateQuestion(operator: string): string {
-    let num1 = Math.floor(Math.random() * 8) + 2;
-    let num2 = Math.floor(Math.random() * 8) + 2;
+function selectDifficulty(): Difficulty {
+    const difficultyRadioButtons = document.getElementsByName('difficulty');
+    let selectedDifficultyLevel: Difficulty | undefined;
+  
+    // Find the selected difficulty
+    difficultyRadioButtons.forEach((radioButton) => {
+      if ((radioButton as HTMLInputElement).checked) {
+        selectedDifficultyLevel = (radioButton as HTMLInputElement).value as Difficulty;
+      }
+    });
+  
+    if (!selectedDifficultyLevel) {
+      alert('Please select a difficulty level');
+      return;
+    }
+  return selectedDifficultyLevel;
+  }
+
+function generateQuestion(operator: string, difficultyLevel:Difficulty): string {
+    let num1 = getRandomNumber(difficultyLevel);
+    let num2 = getRandomNumber(difficultyLevel);
 
     // Ensure subtraction numbers are not negative
     if (operator === '-' && num1 < num2) {
@@ -43,6 +69,19 @@ function generateQuestion(operator: string): string {
 
     return `${num1} ${operator} ${num2} = <input type="text" class="answerInput" data-operator="${operator}" data-num1="${num1}" data-num2="${num2}">`;
 }
+
+function getRandomNumber(difficulty: Difficulty): number {
+    switch (difficulty) {
+      case Difficulty.Easy:
+        return Math.floor(Math.random() * 8) + 2;
+      case Difficulty.Medium:
+        return Math.floor(Math.random() * 18) + 2;
+      case Difficulty.Hard:
+        return Math.floor(Math.random() * 29) + 2;
+      default:
+        return 0;
+    }
+  }
 
 function submitAnswers() {
     const userAnswers = document.querySelectorAll('.answerInput') as NodeListOf<HTMLInputElement>;

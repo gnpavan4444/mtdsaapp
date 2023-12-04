@@ -1,4 +1,11 @@
 var _a, _b, _c, _d, _e;
+// Enums for difficulty levels
+var Difficulty;
+(function (Difficulty) {
+    Difficulty["Easy"] = "easy";
+    Difficulty["Medium"] = "medium";
+    Difficulty["Hard"] = "hard";
+})(Difficulty || (Difficulty = {}));
 (_a = document.getElementById('createTestBtn')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', createTests);
 (_b = document.getElementById('submitBtn')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', submitAnswers);
 (_c = document.getElementById('showResultsButton')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', showResultsPage);
@@ -10,19 +17,35 @@ function createTests() {
     var testsContainer = document.getElementById('testsContainer');
     testsContainer.innerHTML = '';
     correctAnswers = []; // Reset correctAnswers array
+    var difficultyLevel = selectDifficulty();
     for (var i = 1; i <= 5; i++) {
         var test = document.createElement('div');
         test.innerHTML = "<h3>Test ".concat(i, "</h3>");
-        test.innerHTML += "<p>".concat(generateQuestion('+'), "</p>");
-        test.innerHTML += "<p>".concat(generateQuestion('-'), "</p>");
-        test.innerHTML += "<p>".concat(generateQuestion('*'), "</p>");
+        test.innerHTML += "<p>".concat(generateQuestion('+', difficultyLevel), "</p>");
+        test.innerHTML += "<p>".concat(generateQuestion('-', difficultyLevel), "</p>");
+        test.innerHTML += "<p>".concat(generateQuestion('*', difficultyLevel), "</p>");
         //test.innerHTML += `<p>${generateQuestion('/')}</p>`;
         testsContainer === null || testsContainer === void 0 ? void 0 : testsContainer.appendChild(test);
     }
 }
-function generateQuestion(operator) {
-    var num1 = Math.floor(Math.random() * 8) + 2;
-    var num2 = Math.floor(Math.random() * 8) + 2;
+function selectDifficulty() {
+    var difficultyRadioButtons = document.getElementsByName('difficulty');
+    var selectedDifficultyLevel;
+    // Find the selected difficulty
+    difficultyRadioButtons.forEach(function (radioButton) {
+        if (radioButton.checked) {
+            selectedDifficultyLevel = radioButton.value;
+        }
+    });
+    if (!selectedDifficultyLevel) {
+        alert('Please select a difficulty level');
+        return;
+    }
+    return selectedDifficultyLevel;
+}
+function generateQuestion(operator, difficultyLevel) {
+    var num1 = getRandomNumber(difficultyLevel);
+    var num2 = getRandomNumber(difficultyLevel);
     // Ensure subtraction numbers are not negative
     if (operator === '-' && num1 < num2) {
         var temp = num1;
@@ -36,6 +59,18 @@ function generateQuestion(operator) {
         num1 = newNum1;
     }
     return "".concat(num1, " ").concat(operator, " ").concat(num2, " = <input type=\"text\" class=\"answerInput\" data-operator=\"").concat(operator, "\" data-num1=\"").concat(num1, "\" data-num2=\"").concat(num2, "\">");
+}
+function getRandomNumber(difficulty) {
+    switch (difficulty) {
+        case Difficulty.Easy:
+            return Math.floor(Math.random() * 8) + 2;
+        case Difficulty.Medium:
+            return Math.floor(Math.random() * 18) + 2;
+        case Difficulty.Hard:
+            return Math.floor(Math.random() * 29) + 2;
+        default:
+            return 0;
+    }
 }
 function submitAnswers() {
     var userAnswers = document.querySelectorAll('.answerInput');
