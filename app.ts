@@ -5,20 +5,20 @@ document.getElementById('showResultsButton')?.addEventListener('click', showResu
 let correctAnswers: number[] = [];
 let questions: string[] = [];
 let actualAnswers:string[] = [];
-let correctCount = 0; 
+let correctCount:number = 0; 
 
 function createTests() {
     const testsContainer = document.getElementById('testsContainer');
     testsContainer.innerHTML = '';
     correctAnswers = []; // Reset correctAnswers array
 
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 5; i++) {
         const test = document.createElement('div');
         test.innerHTML = `<h3>Test ${i}</h3>`;
         test.innerHTML += `<p>${generateQuestion('+')}</p>`;
         test.innerHTML += `<p>${generateQuestion('-')}</p>`;
         test.innerHTML += `<p>${generateQuestion('*')}</p>`;
-        test.innerHTML += `<p>${generateQuestion('/')}</p>`;
+        //test.innerHTML += `<p>${generateQuestion('/')}</p>`;
         testsContainer?.appendChild(test);
     }
 }
