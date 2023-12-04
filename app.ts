@@ -120,9 +120,9 @@ function showResultsPage() {
     document.getElementById('resultsPage')!.style.display = 'block';
     const dynamicImage:HTMLImageElement = document.getElementById("dynamicImage") as HTMLImageElement;
     if (correctCount > 10) {
-        dynamicImage.src = "./images/image_happy.gif";
+        dynamicImage.src = "./images/img_happy.gif";
     } else {
-        dynamicImage.src = "./images/image.gif";
+        dynamicImage.src = "./images/img.gif";
 
     }
 
