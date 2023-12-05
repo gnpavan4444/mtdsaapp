@@ -16,9 +16,9 @@ var correctCount = 0;
 function createTests() {
     var testsContainer = document.getElementById('testsContainer');
     var difficultyLevel = selectDifficulty();
-    var selectedOperation = selectOperation();
+    var selectedOperations = selectOperation();
     // Validate difficulty level and operation selection
-    if (!difficultyLevel || !selectedOperation) {
+    if (!difficultyLevel || !selectedOperations) {
         alert('Please select both difficulty level and operation.');
         return;
     }
@@ -42,7 +42,8 @@ function createTests() {
     for (var i = 1; i <= numberOfTests; i++) {
         var test = document.createElement('div');
         test.innerHTML = "<h3>Question ".concat(i, "</h3>");
-        test.innerHTML += "<p>".concat(generateQuestion(selectedOperation, difficultyLevel), "</p>");
+        var randomIndex = Math.floor(Math.random() * selectedOperations.length);
+        test.innerHTML += "<p>".concat(generateQuestion(selectedOperations[randomIndex], difficultyLevel), "</p>");
         testsContainer === null || testsContainer === void 0 ? void 0 : testsContainer.appendChild(test);
     }
     var submitButton = document.getElementById("submitBtn");
@@ -65,19 +66,19 @@ function selectDifficulty() {
     return selectedDifficultyLevel;
 }
 function selectOperation() {
-    var operationRadioButtons = document.getElementsByName('operation');
-    var selectedOperation;
+    var operationCheckBoxes = document.getElementsByName('operation');
+    var selectedOperations = [];
     // Find the selected operation
-    operationRadioButtons.forEach(function (radioButton) {
+    operationCheckBoxes.forEach(function (radioButton) {
         if (radioButton.checked) {
-            selectedOperation = radioButton.value;
+            selectedOperations.push(radioButton.value);
         }
     });
-    if (!selectedOperation) {
+    if (!selectedOperations.length) {
         alert('Please select an operation type');
         return;
     }
-    return selectedOperation;
+    return selectedOperations;
 }
 function generateQuestion(operator, difficultyLevel) {
     var num1 = getRandomNumber(difficultyLevel);
@@ -215,7 +216,9 @@ function newTest() {
     var marksValue = document.getElementById('marksValue');
     marksValue.textContent = '';
     document.getElementById('showResultsButton').style.display = 'none';
+    document.getElementById('showResultsButton').style.margin = '0 auto';
     document.getElementById('submitBtn').style.display = 'block';
+    document.getElementById('submitBtn').style.margin = '0 auto';
     correctCount = 0;
 }
 (_d = document.getElementById('backBtn')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', backToMainPage);

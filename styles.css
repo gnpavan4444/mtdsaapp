@@ -32,7 +32,7 @@ input[type="checkbox"] {
 
 #mainPage,
 #resultsPage {
-    background-color: #fff;
+    background-color: #ACB1D6;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -101,4 +101,12 @@ button {
 
 #numberOfTestsLabel {
     margin-left: 10px;
+}
+
+body,div#mainPage {
+    background-color: #ACB1D6;
+}
+
+div#testConfig {
+    background-color: lightgreen;
 }

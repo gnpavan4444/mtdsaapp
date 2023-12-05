@@ -17,10 +17,10 @@ let correctCount: number = 0;
 function createTests() {
     const testsContainer = document.getElementById('testsContainer');
     const difficultyLevel = selectDifficulty();
-    const selectedOperation = selectOperation();
+    const selectedOperations:string[] = selectOperation();
 
     // Validate difficulty level and operation selection
-    if (!difficultyLevel || !selectedOperation) {
+    if (!difficultyLevel || !selectedOperations) {
         alert('Please select both difficulty level and operation.');
         return;
     }
@@ -48,7 +48,8 @@ function createTests() {
     for (let i = 1; i <= numberOfTests; i++) {
         const test = document.createElement('div');
         test.innerHTML = `<h3>Question ${i}</h3>`;
-        test.innerHTML += `<p>${generateQuestion(selectedOperation, difficultyLevel)}</p>`;
+        const randomIndex = Math.floor(Math.random() * selectedOperations.length);
+        test.innerHTML += `<p>${generateQuestion(selectedOperations[randomIndex], difficultyLevel)}</p>`;
         testsContainer?.appendChild(test);
     }
     const submitButton = document.getElementById("submitBtn") as HTMLButtonElement;
@@ -75,23 +76,23 @@ function selectDifficulty(): Difficulty | undefined {
     return selectedDifficultyLevel;
 }
 
-function selectOperation(): string | undefined {
-    const operationRadioButtons = document.getElementsByName('operation');
-    let selectedOperation: string | undefined;
+function selectOperation(): string[] | undefined {
+    const operationCheckBoxes = document.getElementsByName('operation');
+    let selectedOperations: string[] = [];
 
     // Find the selected operation
-    operationRadioButtons.forEach((radioButton) => {
+    operationCheckBoxes.forEach((radioButton) => {
         if ((radioButton as HTMLInputElement).checked) {
-            selectedOperation = (radioButton as HTMLInputElement).value;
+            selectedOperations.push((radioButton as HTMLInputElement).value);
         }
     });
 
-    if (!selectedOperation) {
+    if (!selectedOperations.length) {
         alert('Please select an operation type');
         return;
     }
 
-    return selectedOperation;
+    return selectedOperations;
 }
 
 function generateQuestion(operator: string, difficultyLevel: Difficulty): string {
@@ -249,7 +250,9 @@ function newTest() {
     const marksValue = document.getElementById('marksValue');
     marksValue!.textContent = '';
     document.getElementById('showResultsButton')!.style.display = 'none';
+    document.getElementById('showResultsButton')!.style.margin = '0 auto';
     document.getElementById('submitBtn')!.style.display = 'block';
+    document.getElementById('submitBtn')!.style.margin = '0 auto';
     correctCount = 0;
 }
 
