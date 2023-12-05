@@ -3,7 +3,7 @@ enum Difficulty {
     Easy = 'easy',
     Medium = 'medium',
     Hard = 'hard',
-  }
+}
 
 document.getElementById('createTestBtn')?.addEventListener('click', createTests);
 document.getElementById('submitBtn')?.addEventListener('click', submitAnswers);
@@ -11,88 +11,149 @@ document.getElementById('showResultsButton')?.addEventListener('click', showResu
 
 let correctAnswers: number[] = [];
 let questions: string[] = [];
-let actualAnswers:string[] = [];
-let correctCount:number = 0; 
+let actualAnswers: string[] = [];
+let correctCount: number = 0;
 
 function createTests() {
     const testsContainer = document.getElementById('testsContainer');
-    testsContainer.innerHTML = '';
-    correctAnswers = []; // Reset correctAnswers array
-    let difficultyLevel = selectDifficulty();
+    const difficultyLevel = selectDifficulty();
+    const selectedOperation = selectOperation();
 
-    for (let i = 1; i <= 5; i++) {
+    // Validate difficulty level and operation selection
+    if (!difficultyLevel || !selectedOperation) {
+        alert('Please select both difficulty level and operation.');
+        return;
+    }
+
+    testsContainer.innerHTML = '';
+    correctAnswers = [];
+    questions = [];
+    actualAnswers = [];
+    correctCount = 0;
+
+    let numberOfTests = 1;
+
+    // Validate multiple tests option
+    const enableMultipleTestsCheckbox = document.getElementById('enableMultipleTests') as HTMLInputElement;
+    if (enableMultipleTestsCheckbox?.checked) {
+        // Validate the number of tests input
+        numberOfTests = parseInt((document.getElementById('numberOfTests') as HTMLInputElement).value, 10) || 1;
+        if (numberOfTests <= 0) {
+            alert('Please enter a valid number of tests.');
+            return;
+        }
+    }
+
+    // Create tests only if difficulty level and operation are selected
+    for (let i = 1; i <= numberOfTests; i++) {
         const test = document.createElement('div');
         test.innerHTML = `<h3>Test ${i}</h3>`;
-        test.innerHTML += `<p>${generateQuestion('+', difficultyLevel)}</p>`;
-        test.innerHTML += `<p>${generateQuestion('-', difficultyLevel)}</p>`;
-        test.innerHTML += `<p>${generateQuestion('*', difficultyLevel)}</p>`;
-        //test.innerHTML += `<p>${generateQuestion('/')}</p>`;
+        test.innerHTML += `<p>${generateQuestion(selectedOperation, difficultyLevel)}</p>`;
         testsContainer?.appendChild(test);
     }
 }
 
-function selectDifficulty(): Difficulty {
+function selectDifficulty(): Difficulty | undefined {
     const difficultyRadioButtons = document.getElementsByName('difficulty');
     let selectedDifficultyLevel: Difficulty | undefined;
-  
+
     // Find the selected difficulty
     difficultyRadioButtons.forEach((radioButton) => {
-      if ((radioButton as HTMLInputElement).checked) {
-        selectedDifficultyLevel = (radioButton as HTMLInputElement).value as Difficulty;
-      }
+        if ((radioButton as HTMLInputElement).checked) {
+            selectedDifficultyLevel = (radioButton as HTMLInputElement).value as Difficulty;
+        }
     });
-  
-    if (!selectedDifficultyLevel) {
-      alert('Please select a difficulty level');
-      return;
-    }
-  return selectedDifficultyLevel;
-  }
 
-function generateQuestion(operator: string, difficultyLevel:Difficulty): string {
+    console.log('Selected Difficulty:', selectedDifficultyLevel); // Add this line for debugging
+
+    if (!selectedDifficultyLevel) {
+        alert('Please select a difficulty level');
+        return;
+    }
+    return selectedDifficultyLevel;
+}
+
+function selectOperation(): string | undefined {
+    const operationRadioButtons = document.getElementsByName('operation');
+    let selectedOperation: string | undefined;
+
+    // Find the selected operation
+    operationRadioButtons.forEach((radioButton) => {
+        if ((radioButton as HTMLInputElement).checked) {
+            selectedOperation = (radioButton as HTMLInputElement).value;
+        }
+    });
+
+    if (!selectedOperation) {
+        alert('Please select an operation type');
+        return;
+    }
+
+    return selectedOperation;
+}
+
+function generateQuestion(operator: string, difficultyLevel: Difficulty): string {
     let num1 = getRandomNumber(difficultyLevel);
     let num2 = getRandomNumber(difficultyLevel);
 
-    // Ensure subtraction numbers are not negative
-    if (operator === '-' && num1 < num2) {
-        const temp = num1;
-        num1 = num2;
-        num2 = temp;
+    // Adjust numbers based on operator
+    switch (operator) {
+        case 'subtraction':
+            // Ensure subtraction numbers are not negative
+            if (num1 < num2) {
+                const temp = num1;
+                num1 = num2;
+                num2 = temp;
+            }
+            break;
+        case 'division':
+            // Ensure division numbers are properly divisible and num1 > num2
+            num2 = num2 === 0 ? 1 : num2;
+            const newNum1 = num1 * num2;
+            num1 = newNum1;
+            break;
+        // Add cases for other operators if needed
+
+        // For 'addition' and 'multiplication', no special handling needed
     }
 
-    // Ensure division numbers are properly divisible and num1 > num2
-    if (operator === '/') {
-        num2 = num2 === 0 ? 1 : num2;
-        const newNum1 = num1 * num2;
-        num1 = newNum1;
-    }
+    // Map operator to a more readable symbol
+    const operatorSymbol = {
+        'addition': '+',
+        'subtraction': '-',
+        'multiplication': '×',
+        'division': '÷',
+    }[operator];
 
-    return `${num1} ${operator} ${num2} = <input type="text" class="answerInput" data-operator="${operator}" data-num1="${num1}" data-num2="${num2}">`;
+    // Evaluate the result
+    const result = eval(`${num1} ${operatorSymbol} ${num2}`);
+
+    // Display the question and result in the UI
+    return `${num1} ${operatorSymbol} ${num2} = <input type="text" class="answerInput" data-operator="${operatorSymbol}" data-num1="${num1}" data-num2="${num2}" data-result="${result}">`;
 }
+
+
 
 function getRandomNumber(difficulty: Difficulty): number {
     switch (difficulty) {
-      case Difficulty.Easy:
-        return Math.floor(Math.random() * 8) + 2;
-      case Difficulty.Medium:
-        return Math.floor(Math.random() * 18) + 2;
-      case Difficulty.Hard:
-        return Math.floor(Math.random() * 20 + 11.5);
-
-      default:
-        return 0;
+        case Difficulty.Easy:
+            return Math.floor(Math.random() * 8) + 2;
+        case Difficulty.Medium:
+            return Math.floor(Math.random() * 18) + 2;
+        case Difficulty.Hard:
+            return Math.floor(Math.random() * 20 + 11.5);
+        default:
+            return 0;
     }
-  }
+}
 
 function submitAnswers() {
     const userAnswers = document.querySelectorAll('.answerInput') as NodeListOf<HTMLInputElement>;
     const resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = '';
 
-    correctAnswers = []; // Reset correctAnswers array
+    correctAnswers = [];
     actualAnswers = [];
-    questions = [];
-    correctCount = 0;
 
     let unansweredFound = false;
     let firstUnansweredField: HTMLInputElement | null = null;
@@ -104,7 +165,7 @@ function submitAnswers() {
         questions.push(`${num1} ${operator} ${num2}`);
         const expectedAnswer = eval(`${num1} ${operator} ${num2}`);
 
-        correctAnswers.push(expectedAnswer); // Store correct answers for displaying later
+        correctAnswers.push(expectedAnswer);
 
         const answerValue = answerInput.value.trim();
         actualAnswers.push(answerValue);
@@ -117,9 +178,8 @@ function submitAnswers() {
                 firstUnansweredField = answerInput;
             }
         } else {
-            answerInput.style.borderColor = ''; // Reset border color
+            answerInput.style.borderColor = '';
         }
-
 
         if (parseInt(answerValue, 10) === expectedAnswer) {
             answerInput.style.border = '4px solid green';
@@ -130,7 +190,6 @@ function submitAnswers() {
     });
 
     if (unansweredFound) {
-        // Display message and scroll to the first unanswered field
         alert('Please answer all questions.');
         if (firstUnansweredField) {
             firstUnansweredField.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -140,14 +199,11 @@ function submitAnswers() {
         if (marksValue) {
             marksValue.textContent = correctCount.toString();
         }
-        //alert(`Total marks are ${correctCount}`);
-
-        // Display results page
         showResultsButton();
         userAnswers.forEach((userInput) => {
             userInput.disabled = true;
             userInput.style.backgroundColor = 'silver';
-        })
+        });
     }
 }
 
@@ -160,15 +216,14 @@ function showResultsButton() {
 function showResultsPage() {
     document.getElementById('mainPage')!.style.display = 'none';
     document.getElementById('resultsPage')!.style.display = 'block';
-    const dynamicImage:HTMLImageElement = document.getElementById("dynamicImage") as HTMLImageElement;
-    if (correctCount === 15) {
-        dynamicImage.setAttribute("src", "./images/image_perfect.gif");
-    } else if (correctCount > 10) {
-        dynamicImage.setAttribute("src", "./images/img_happy.gif");
-        //dynamicImage.src = "./images/img_happy.gif";
+    const dynamicImage: HTMLImageElement = document.getElementById('dynamicImage') as HTMLImageElement;
+    const percentageCorrect = (correctCount / questions.length) * 100;
+    if (percentageCorrect > 90) {
+        dynamicImage.setAttribute('src', './images/image_perfect.gif');
+    } else if (percentageCorrect >= 80) {
+        dynamicImage.setAttribute('src', './images/img_happy.gif');
     } else {
-        //dynamicImage.src = "./images/img.gif";
-        dynamicImage.setAttribute("src", "./images/img.gif");
+        dynamicImage.setAttribute('src', './images/img.gif');
     }
 
     const resultsContainer = document.getElementById('resultsContainer');
@@ -196,6 +251,5 @@ function newTest() {
     correctCount = 0;
 }
 
-// Event listeners for the buttons on the results page
 document.getElementById('backBtn')?.addEventListener('click', backToMainPage);
 document.getElementById('newTestBtn')?.addEventListener('click', newTest);

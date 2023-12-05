@@ -10,17 +10,38 @@
     <div id="testConfig">
         <label>
             <input type="radio" name="difficulty" value="easy"> Easy
-          </label>
-          <label>
+        </label>
+        <label>
             <input type="radio" name="difficulty" value="medium"> Medium
-          </label>
-          <label>
+        </label>
+        <label>
             <input type="radio" name="difficulty" value="hard"> Hard
-          </label>
+        </label>
+
+        <label>
+            <input type="radio" name="operation" value="addition"> Addition
+        </label>
+        <label>
+            <input type="radio" name="operation" value="subtraction"> Subtraction
+        </label>
+        <label>
+            <input type="radio" name="operation" value="multiplication"> Multiplication
+        </label>
+        <label>
+            <input type="radio" name="operation" value="division"> Division
+        </label>
+
+        <label>
+            <input type="checkbox" id="enableMultipleTests" onchange="toggleNumberOfTests()"> Enable Multiple Tests
+        </label>
+        <label id="numberOfTestsLabel" style="display: none;">
+            Number of Tests: <input type="number" id="numberOfTests" min="1" value="5">
+        </label>
     </div>
+
     <div id="mainPage">
         <button id="createTestBtn">Create Test</button>
-        <div id="testsContainer"></div>
+        <div id="testsContainer" style="max-width: 800px; margin: 0 auto;"></div>
         <button id="submitBtn">Submit</button>
         <div id="results"></div>
         <div id="marks">Marks: <span id="marksValue"></span></div>
@@ -38,5 +59,11 @@
     </div>
 
     <script src="app.js"></script>
+    <script>
+        function toggleNumberOfTests() {
+            const numberOfTestsLabel = document.getElementById('numberOfTestsLabel');
+            numberOfTestsLabel.style.display = document.getElementById('enableMultipleTests').checked ? 'block' : 'none';
+        }
+    </script>
 </body>
 </html>
