@@ -31,7 +31,7 @@ function createTests() {
     actualAnswers = [];
     correctCount = 0;
 
-    let numberOfTests = 1;
+    let numberOfTests = 5;
 
     // Validate multiple tests option
     const enableMultipleTestsCheckbox = document.getElementById('enableMultipleTests') as HTMLInputElement;
@@ -47,10 +47,12 @@ function createTests() {
     // Create tests only if difficulty level and operation are selected
     for (let i = 1; i <= numberOfTests; i++) {
         const test = document.createElement('div');
-        test.innerHTML = `<h3>Test ${i}</h3>`;
+        test.innerHTML = `<h3>Question ${i}</h3>`;
         test.innerHTML += `<p>${generateQuestion(selectedOperation, difficultyLevel)}</p>`;
         testsContainer?.appendChild(test);
     }
+    const submitButton = document.getElementById("submitBtn") as HTMLButtonElement;
+    submitButton.style.display = "block";
 }
 
 function selectDifficulty(): Difficulty | undefined {
@@ -121,8 +123,8 @@ function generateQuestion(operator: string, difficultyLevel: Difficulty): string
     const operatorSymbol = {
         'addition': '+',
         'subtraction': '-',
-        'multiplication': '×',
-        'division': '÷',
+        'multiplication': '*',
+        'division': '/',
     }[operator];
 
     // Evaluate the result

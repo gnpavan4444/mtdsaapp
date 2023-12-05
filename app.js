@@ -27,7 +27,7 @@ function createTests() {
     questions = [];
     actualAnswers = [];
     correctCount = 0;
-    var numberOfTests = 1;
+    var numberOfTests = 5;
     // Validate multiple tests option
     var enableMultipleTestsCheckbox = document.getElementById('enableMultipleTests');
     if (enableMultipleTestsCheckbox === null || enableMultipleTestsCheckbox === void 0 ? void 0 : enableMultipleTestsCheckbox.checked) {
@@ -41,10 +41,12 @@ function createTests() {
     // Create tests only if difficulty level and operation are selected
     for (var i = 1; i <= numberOfTests; i++) {
         var test = document.createElement('div');
-        test.innerHTML = "<h3>Test ".concat(i, "</h3>");
+        test.innerHTML = "<h3>Question ".concat(i, "</h3>");
         test.innerHTML += "<p>".concat(generateQuestion(selectedOperation, difficultyLevel), "</p>");
         testsContainer === null || testsContainer === void 0 ? void 0 : testsContainer.appendChild(test);
     }
+    var submitButton = document.getElementById("submitBtn");
+    submitButton.style.display = "block";
 }
 function selectDifficulty() {
     var difficultyRadioButtons = document.getElementsByName('difficulty');
@@ -103,8 +105,8 @@ function generateQuestion(operator, difficultyLevel) {
     var operatorSymbol = {
         'addition': '+',
         'subtraction': '-',
-        'multiplication': '×',
-        'division': '÷',
+        'multiplication': '*',
+        'division': '/',
     }[operator];
     // Evaluate the result
     var result = eval("".concat(num1, " ").concat(operatorSymbol, " ").concat(num2));

@@ -35,14 +35,14 @@
             <input type="checkbox" id="enableMultipleTests" onchange="toggleNumberOfTests()"> Enable Multiple Tests
         </label>
         <label id="numberOfTestsLabel" style="display: none;">
-            Number of Tests: <input type="number" id="numberOfTests" min="1" value="5">
+            Number of Tests: <input type="number" id="numberOfTests" min="1" value="10">
         </label>
     </div>
 
     <div id="mainPage">
         <button id="createTestBtn">Create Test</button>
         <div id="testsContainer" style="max-width: 800px; margin: 0 auto;"></div>
-        <button id="submitBtn">Submit</button>
+        <button id="submitBtn" style="display: none;">Submit</button>
         <div id="results"></div>
         <div id="marks">Marks: <span id="marksValue"></span></div>
         <button id="showResultsButton">Show Results</button>
