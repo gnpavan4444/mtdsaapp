@@ -15,6 +15,9 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     align-self: flex-start;
+    display: flex; /* Use flexbox */
+    flex-wrap: wrap; /* Wrap items to the next row if necessary */
+    justify-content: space-around; /* Distribute items evenly along the row */
 }
 
 label {
