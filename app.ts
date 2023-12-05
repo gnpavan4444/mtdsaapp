@@ -31,7 +31,7 @@ function createTests() {
     actualAnswers = [];
     correctCount = 0;
 
-    let numberOfTests = 5;
+    let numberOfTests = 10;
 
     // Validate multiple tests option
     const enableMultipleTestsCheckbox = document.getElementById('enableMultipleTests') as HTMLInputElement;

@@ -4,8 +4,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     height: 100vh;
 }
 
@@ -15,9 +14,7 @@ body {
     padding: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-self: flex-start;
 }
 
 label {
@@ -25,11 +22,13 @@ label {
     margin-bottom: 10px;
 }
 
-input[type="radio"], input[type="checkbox"] {
+input[type="radio"],
+input[type="checkbox"] {
     margin-right: 5px;
 }
 
-#mainPage, #resultsPage {
+#mainPage,
+#resultsPage {
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
@@ -38,6 +37,7 @@ input[type="radio"], input[type="checkbox"] {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
 }
 
 button {
@@ -53,17 +53,17 @@ button {
 #testsContainer {
     overflow-y: auto;
     max-width: 800px;
-    max-height: 300px;
     margin-top: 20px;
+    flex: 1;
+    display: flex; /* Use flexbox */
+    flex-wrap: wrap; /* Wrap items to the next row if necessary */
+    justify-content: space-around; /* Distribute items evenly along the row */
 }
 
-.answerInput {
-    width: 50px;
-    padding: 5px;
-    margin: 5px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+#resultsContainer {
+    text-align: left;
+    margin-top: 20px;
+    flex: 1;
 }
 
 #showResultsButton {
@@ -81,7 +81,8 @@ button {
     margin-top: 20px;
 }
 
-#backBtn, #newTestBtn {
+#backBtn,
+#newTestBtn {
     background-color: #008CBA;
     color: #fff;
     padding: 10px 20px;
@@ -98,4 +99,3 @@ button {
 #numberOfTestsLabel {
     margin-left: 10px;
 }
-

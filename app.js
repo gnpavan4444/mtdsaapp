@@ -27,7 +27,7 @@ function createTests() {
     questions = [];
     actualAnswers = [];
     correctCount = 0;
-    var numberOfTests = 5;
+    var numberOfTests = 10;
     // Validate multiple tests option
     var enableMultipleTestsCheckbox = document.getElementById('enableMultipleTests');
     if (enableMultipleTestsCheckbox === null || enableMultipleTestsCheckbox === void 0 ? void 0 : enableMultipleTestsCheckbox.checked) {
